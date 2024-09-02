@@ -1,10 +1,8 @@
-import { AniwatchError } from "../config/error.js";
-import type {
-  Anime,
-  Top10Anime,
-  MostPopularAnime,
-  Top10AnimeTimePeriod,
-} from "../types/anime.js";
+import type { CheerioAPI, SelectorType } from 'cheerio';
+
+import { AniwatchError } from '../config/error.js';
+import type { Anime, MostPopularAnime, Top10Anime, Top10AnimeTimePeriod } from '../types/anime.js';
+import type { FilterKeys } from '../types/animeSearch.js';
 import {
   genresIdMap,
   languageIdMap,
@@ -14,9 +12,7 @@ import {
   sortIdMap,
   statusIdMap,
   typeIdMap,
-} from "./constants.js";
-import type { CheerioAPI, SelectorType } from "cheerio";
-import type { FilterKeys } from "../types/animeSearch.js";
+} from './constants.js';
 
 export const extractAnimes = (
   $: CheerioAPI,
@@ -29,55 +25,25 @@ export const extractAnimes = (
     $(selector).each((_, el) => {
       const animeId =
         $(el)
-          .find(".film-detail .film-name .dynamic-name")
-          ?.attr("href")
+          .find('.film-detail .film-name .dynamic-name')
+          ?.attr('href')
           ?.slice(1)
-          .split("?ref=search")[0] || null;
+          .split('?ref=search')[0] || null;
 
       animes.push({
         id: animeId,
-        name: $(el)
-          .find(".film-detail .film-name .dynamic-name")
-          ?.text()
-          ?.trim(),
+        name: $(el).find('.film-detail .film-name .dynamic-name')?.text()?.trim(),
         jname:
-          $(el)
-            .find(".film-detail .film-name .dynamic-name")
-            ?.attr("data-jname")
-            ?.trim() || null,
-        poster:
-          $(el)
-            .find(".film-poster .film-poster-img")
-            ?.attr("data-src")
-            ?.trim() || null,
-        duration: $(el)
-          .find(".film-detail .fd-infor .fdi-item.fdi-duration")
-          ?.text()
-          ?.trim(),
-        type: $(el)
-          .find(".film-detail .fd-infor .fdi-item:nth-of-type(1)")
-          ?.text()
-          ?.trim(),
-        rating: $(el).find(".film-poster .tick-rate")?.text()?.trim() || null,
+          $(el).find('.film-detail .film-name .dynamic-name')?.attr('data-jname')?.trim() || null,
+        poster: $(el).find('.film-poster .film-poster-img')?.attr('data-src')?.trim() || null,
+        duration: $(el).find('.film-detail .fd-infor .fdi-item.fdi-duration')?.text()?.trim(),
+        type: $(el).find('.film-detail .fd-infor .fdi-item:nth-of-type(1)')?.text()?.trim(),
+        rating: $(el).find('.film-poster .tick-rate')?.text()?.trim() || null,
         episodes: {
           sub:
-            Number(
-              $(el)
-                .find(".film-poster .tick-sub")
-                ?.text()
-                ?.trim()
-                .split(" ")
-                .pop()
-            ) || null,
+            Number($(el).find('.film-poster .tick-sub')?.text()?.trim().split(' ').pop()) || null,
           dub:
-            Number(
-              $(el)
-                .find(".film-poster .tick-dub")
-                ?.text()
-                ?.trim()
-                .split(" ")
-                .pop()
-            ) || null,
+            Number($(el).find('.film-poster .tick-dub')?.text()?.trim().split(' ').pop()) || null,
         },
       });
     });
@@ -99,39 +65,18 @@ export const extractTop10Animes = (
 
     $(selector).each((_, el) => {
       animes.push({
-        id:
-          $(el)
-            .find(".film-detail .dynamic-name")
-            ?.attr("href")
-            ?.slice(1)
-            .trim() || null,
-        rank: Number($(el).find(".film-number span")?.text()?.trim()) || null,
-        name: $(el).find(".film-detail .dynamic-name")?.text()?.trim() || null,
-        jname:
-          $(el)
-            .find(".film-detail .dynamic-name")
-            ?.attr("data-jname")
-            ?.trim() || null,
-        poster:
-          $(el)
-            .find(".film-poster .film-poster-img")
-            ?.attr("data-src")
-            ?.trim() || null,
+        id: $(el).find('.film-detail .dynamic-name')?.attr('href')?.slice(1).trim() || null,
+        rank: Number($(el).find('.film-number span')?.text()?.trim()) || null,
+        name: $(el).find('.film-detail .dynamic-name')?.text()?.trim() || null,
+        jname: $(el).find('.film-detail .dynamic-name')?.attr('data-jname')?.trim() || null,
+        poster: $(el).find('.film-poster .film-poster-img')?.attr('data-src')?.trim() || null,
         episodes: {
           sub:
-            Number(
-              $(el)
-                .find(".film-detail .fd-infor .tick-item.tick-sub")
-                ?.text()
-                ?.trim()
-            ) || null,
+            Number($(el).find('.film-detail .fd-infor .tick-item.tick-sub')?.text()?.trim()) ||
+            null,
           dub:
-            Number(
-              $(el)
-                .find(".film-detail .fd-infor .tick-item.tick-dub")
-                ?.text()
-                ?.trim()
-            ) || null,
+            Number($(el).find('.film-detail .fd-infor .tick-item.tick-dub')?.text()?.trim()) ||
+            null,
         },
       });
     });
@@ -152,38 +97,22 @@ export const extractMostPopularAnimes = (
 
     $(selector).each((_, el) => {
       animes.push({
-        id:
-          $(el)
-            .find(".film-detail .dynamic-name")
-            ?.attr("href")
-            ?.slice(1)
-            .trim() || null,
-        name: $(el).find(".film-detail .dynamic-name")?.text()?.trim() || null,
+        id: $(el).find('.film-detail .dynamic-name')?.attr('href')?.slice(1).trim() || null,
+        name: $(el).find('.film-detail .dynamic-name')?.text()?.trim() || null,
         jname:
-          $(el)
-            .find(".film-detail .film-name .dynamic-name")
-            .attr("data-jname")
-            ?.trim() || null,
-        poster:
-          $(el)
-            .find(".film-poster .film-poster-img")
-            ?.attr("data-src")
-            ?.trim() || null,
+          $(el).find('.film-detail .film-name .dynamic-name').attr('data-jname')?.trim() || null,
+        poster: $(el).find('.film-poster .film-poster-img')?.attr('data-src')?.trim() || null,
         episodes: {
-          sub:
-            Number($(el)?.find(".fd-infor .tick .tick-sub")?.text()?.trim()) ||
-            null,
-          dub:
-            Number($(el)?.find(".fd-infor .tick .tick-dub")?.text()?.trim()) ||
-            null,
+          sub: Number($(el)?.find('.fd-infor .tick .tick-sub')?.text()?.trim()) || null,
+          dub: Number($(el)?.find('.fd-infor .tick .tick-dub')?.text()?.trim()) || null,
         },
         type:
           $(el)
-            ?.find(".fd-infor .tick")
+            ?.find('.fd-infor .tick')
             ?.text()
             ?.trim()
-            ?.replace(/[\s\n]+/g, " ")
-            ?.split(" ")
+            ?.replace(/[\s\n]+/g, ' ')
+            ?.split(' ')
             ?.pop() || null,
       });
     });
@@ -194,18 +123,12 @@ export const extractMostPopularAnimes = (
   }
 };
 
-export function retrieveServerId(
-  $: CheerioAPI,
-  index: number,
-  category: "sub" | "dub" | "raw"
-) {
+export function retrieveServerId($: CheerioAPI, index: number, category: 'sub' | 'dub' | 'raw') {
   return (
     $(`.ps_-block.ps_-block-sub.servers-${category} > .ps__-list .server-item`)
-      ?.map((_, el) =>
-        $(el).attr("data-server-id") == `${index}` ? $(el) : null
-      )
+      ?.map((_, el) => ($(el).attr('data-server-id') == `${index}` ? $(el) : null))
       ?.get()[0]
-      ?.attr("data-id") || null
+      ?.attr('data-id') || null
   );
 }
 
@@ -213,45 +136,42 @@ function getGenresFilterVal(genreNames: string[]): string | undefined {
   if (genreNames.length < 1) {
     return undefined;
   }
-  return genreNames.map((name) => genresIdMap[name]).join(",");
+  return genreNames.map((name) => genresIdMap[name]).join(',');
 }
 
-export function getSearchFilterValue(
-  key: FilterKeys,
-  rawValue: string
-): string | undefined {
+export function getSearchFilterValue(key: FilterKeys, rawValue: string): string | undefined {
   rawValue = rawValue.trim();
   if (!rawValue) return undefined;
 
   switch (key) {
-    case "genres": {
-      return getGenresFilterVal(rawValue.split(","));
+    case 'genres': {
+      return getGenresFilterVal(rawValue.split(','));
     }
-    case "type": {
+    case 'type': {
       const val = typeIdMap[rawValue] ?? 0;
       return val === 0 ? undefined : `${val}`;
     }
-    case "status": {
+    case 'status': {
       const val = statusIdMap[rawValue] ?? 0;
       return val === 0 ? undefined : `${val}`;
     }
-    case "rated": {
+    case 'rated': {
       const val = ratedIdMap[rawValue] ?? 0;
       return val === 0 ? undefined : `${val}`;
     }
-    case "score": {
+    case 'score': {
       const val = scoreIdMap[rawValue] ?? 0;
       return val === 0 ? undefined : `${val}`;
     }
-    case "season": {
+    case 'season': {
       const val = seasonIdMap[rawValue] ?? 0;
       return val === 0 ? undefined : `${val}`;
     }
-    case "language": {
+    case 'language': {
       const val = languageIdMap[rawValue] ?? 0;
       return val === 0 ? undefined : `${val}`;
     }
-    case "sort": {
+    case 'sort': {
       return sortIdMap[rawValue] ?? undefined;
     }
     default:
@@ -268,8 +188,8 @@ export function getSearchDateFilterValue(
   if (!rawValue) return undefined;
 
   const dateRegex = /^\d{4}-([0-9]|1[0-2])-([0-9]|[12][0-9]|3[01])$/;
-  const dateCategory = isStartDate ? "s" : "e";
-  const [year, month, date] = rawValue.split("-");
+  const dateCategory = isStartDate ? 's' : 'e';
+  const [year, month, date] = rawValue.split('-');
 
   if (!dateRegex.test(rawValue)) {
     return undefined;
@@ -277,18 +197,18 @@ export function getSearchDateFilterValue(
 
   // sample return -> [sy=2023, sm=10, sd=11]
   return [
-    Number(year) > 0 ? `${dateCategory}y=${year}` : "",
-    Number(month) > 0 ? `${dateCategory}m=${month}` : "",
-    Number(date) > 0 ? `${dateCategory}d=${date}` : "",
+    Number(year) > 0 ? `${dateCategory}y=${year}` : '',
+    Number(month) > 0 ? `${dateCategory}m=${month}` : '',
+    Number(date) > 0 ? `${dateCategory}d=${date}` : '',
   ].filter((d) => Boolean(d));
 }
 
 export function substringAfter(str: string, toFind: string) {
   const index = str.indexOf(toFind);
-  return index == -1 ? "" : str.substring(index + toFind.length);
+  return index == -1 ? '' : str.substring(index + toFind.length);
 }
 
 export function substringBefore(str: string, toFind: string) {
   const index = str.indexOf(toFind);
-  return index == -1 ? "" : str.substring(0, index);
+  return index == -1 ? '' : str.substring(0, index);
 }

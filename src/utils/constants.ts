@@ -1,11 +1,11 @@
-export const ACCEPT_ENCODING_HEADER = "gzip, deflate, br" as const;
+export const ACCEPT_ENCODING_HEADER = 'gzip, deflate, br' as const;
 export const USER_AGENT_HEADER =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4692.71 Safari/537.36" as const;
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4692.71 Safari/537.36' as const;
 export const ACCEPT_HEADER =
-  "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" as const;
+  'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' as const;
 
 // previously aniwatch.to || aniwatchtv.to
-const DOMAIN = "hianime.to" as const;
+const DOMAIN = 'hianime.to' as const;
 
 export const SRC_BASE_URL = `https://${DOMAIN}` as const;
 export const SRC_AJAX_URL = `${SRC_BASE_URL}/ajax` as const;
@@ -31,7 +31,7 @@ export const genresIdMap: Record<string, number> = {
   josei: 43,
   kids: 15,
   magic: 16,
-  "martial-arts": 17,
+  'martial-arts': 17,
   mecha: 18,
   military: 38,
   music: 19,
@@ -42,16 +42,16 @@ export const genresIdMap: Record<string, number> = {
   romance: 22,
   samurai: 21,
   school: 23,
-  "sci-fi": 24,
+  'sci-fi': 24,
   seinen: 42,
   shoujo: 25,
-  "shoujo-ai": 26,
+  'shoujo-ai': 26,
   shounen: 27,
-  "shounen-ai": 28,
-  "slice-of-life": 36,
+  'shounen-ai': 28,
+  'slice-of-life': 36,
   space: 29,
   sports: 30,
-  "super-power": 31,
+  'super-power': 31,
   supernatural: 37,
   thriller: 41,
   vampire: 32,
@@ -69,18 +69,18 @@ export const typeIdMap: Record<string, number> = {
 
 export const statusIdMap: Record<string, number> = {
   all: 0,
-  "finished-airing": 1,
-  "currently-airing": 2,
-  "not-yet-aired": 3,
+  'finished-airing': 1,
+  'currently-airing': 2,
+  'not-yet-aired': 3,
 } as const;
 
 export const ratedIdMap: Record<string, number> = {
   all: 0,
   g: 1,
   pg: 2,
-  "pg-13": 3,
+  'pg-13': 3,
   r: 4,
-  "r+": 5,
+  'r+': 5,
   rx: 6,
 } as const;
 
@@ -88,12 +88,12 @@ export const scoreIdMap: Record<string, number> = {
   all: 0,
   appalling: 1,
   horrible: 2,
-  "very-bad": 3,
+  'very-bad': 3,
   bad: 4,
   average: 5,
   fine: 6,
   good: 7,
-  "very-good": 8,
+  'very-good': 8,
   great: 9,
   masterpiece: 10,
 } as const;
@@ -110,16 +110,16 @@ export const languageIdMap: Record<string, number> = {
   all: 0,
   sub: 1,
   dub: 2,
-  "sub-&-dub": 3,
+  'sub-&-dub': 3,
 } as const;
 
 export const sortIdMap: Record<string, string> = {
-  default: "default",
-  "recently-added": "recently_added",
-  "recently-updated": "recently_updated",
-  score: "score",
-  "name-a-z": "name_az",
-  "released-date": "released_date",
-  "most-watched": "most_watched",
+  default: 'default',
+  'recently-added': 'recently_added',
+  'recently-updated': 'recently_updated',
+  score: 'score',
+  'name-a-z': 'name_az',
+  'released-date': 'released_date',
+  'most-watched': 'most_watched',
 } as const;
 // </SearchPageFilters>

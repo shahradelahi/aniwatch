@@ -1,8 +1,9 @@
-import { expect, test } from "vitest";
-import { getProducerAnimes } from "../src/index.js";
+import { expect, test } from 'vitest';
 
-test("returns animes produced by a producer", async () => {
-  const data = await getProducerAnimes("toei-animation", 2);
+import { getProducerAnimes } from '../src/index.js';
+
+test('returns animes produced by a producer', async () => {
+  const data = await getProducerAnimes('toei-animation', 2);
 
   expect(data.animes).not.toEqual([]);
   expect(data.topAiringAnimes).not.toEqual([]);

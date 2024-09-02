@@ -1,4 +1,4 @@
-import type { SubEpisode, DubEpisode, RawEpisode } from "../anime.js";
+import type { DubEpisode, RawEpisode, SubEpisode } from '../anime.js';
 
 export interface ScrapedEpisodeServers {
   sub: SubEpisode[];

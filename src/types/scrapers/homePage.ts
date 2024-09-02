@@ -1,17 +1,16 @@
 import type {
-  TrendingAnime,
-  SpotlightAnime,
-  TopAiringAnime,
-  TopUpcomingAnime,
+  LatestCompletedAnime,
   LatestEpisodeAnime,
   MostFavoriteAnime,
   MostPopularAnime,
-  LatestCompletedAnime,
-} from "../anime.js";
-import type { ScrapedAnimeCategory } from "./animeCategory.js";
+  SpotlightAnime,
+  TopAiringAnime,
+  TopUpcomingAnime,
+  TrendingAnime,
+} from '../anime.js';
+import type { ScrapedAnimeCategory } from './animeCategory.js';
 
-export interface ScrapedHomePage
-  extends Pick<ScrapedAnimeCategory, "genres" | "top10Animes"> {
+export interface ScrapedHomePage extends Pick<ScrapedAnimeCategory, 'genres' | 'top10Animes'> {
   spotlightAnimes: Array<SpotlightAnime>;
   trendingAnimes: Array<TrendingAnime>;
   latestEpisodeAnimes: Array<LatestEpisodeAnime>;

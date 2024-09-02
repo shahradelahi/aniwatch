@@ -8,11 +8,13 @@
   "module": "dist/index.js",
   "type": "module",
   "scripts": {
+    "dev": "tsup --watch",
     "lint": "tsc",
     "build": "tsup",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
     "ci": "tsc && pnpm test && tsup",
-    "test": "vitest run --config vitest.config.ts",
-    "prepare": "node .husky/install.mjs"
+    "test": "vitest run --config vitest.config.ts"
   },
   "author": "https://github.com/ghoshRitesh12",
   "repository": {
@@ -32,15 +34,17 @@
     "scraper",
     "package"
   ],
+  "packageManager": "pnpm@8.15.9",
   "dependencies": {
     "axios": "^1.7.3",
     "cheerio": "1.0.0-rc.12",
     "crypto-js": "^4.2.0"
   },
   "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@types/crypto-js": "^4.2.2",
     "@types/node": "^22.1.0",
-    "husky": "^9.1.4",
+    "prettier": "^3.3.3",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5"

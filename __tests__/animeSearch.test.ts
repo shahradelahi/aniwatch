@@ -1,9 +1,10 @@
-import { expect, test } from "vitest";
-import { getAnimeSearchResults } from "../src/index.js";
+import { expect, test } from 'vitest';
 
-test("returns animes related to search query", async () => {
-  const data = await getAnimeSearchResults("monster", 1, {
-    genres: "seinen,psychological",
+import { getAnimeSearchResults } from '../src/index.js';
+
+test('returns animes related to search query', async () => {
+  const data = await getAnimeSearchResults('monster', 1, {
+    genres: 'seinen,psychological',
   });
 
   expect(data.animes).not.toEqual([]);

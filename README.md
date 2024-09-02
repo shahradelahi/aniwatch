@@ -86,9 +86,7 @@
 To use `aniwatch` package in your project, run:
 
 ```bash
-pnpm add aniwatch
-# or "yarn add aniwatch"
-# or "npm install aniwatch"
+npm install aniwatch@github:shahradelahi/aniwatch
 ```
 
 ### Example usage
@@ -96,9 +94,9 @@ pnpm add aniwatch
 Example - getting information about an anime by providing it's unique anime id, using anime [Steins;Gate](https://www.imdb.com/title/tt1910272/) with `steinsgate-3` unique anime id as an example.
 
 ```javascript
-import { getAnimeAboutInfo } from "aniwatch";
+import { getAnimeAboutInfo } from 'aniwatch';
 
-getAnimeAboutInfo("steinsgate-3")
+getAnimeAboutInfo('steinsgate-3')
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 ```
@@ -114,7 +112,7 @@ getAnimeAboutInfo("steinsgate-3")
 #### Sample Usage
 
 ```typescript
-import { getHomePage } from "aniwatch";
+import { getHomePage } from 'aniwatch';
 
 getHomePage()
   .then((data) => console.log(data))
@@ -269,9 +267,9 @@ getHomePage()
 #### Sample Usage
 
 ```javascript
-import { getAnimeAboutInfo } from "aniwatch";
+import { getAnimeAboutInfo } from 'aniwatch';
 
-getAnimeAboutInfo("steinsgate-3")
+getAnimeAboutInfo('steinsgate-3')
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 ```
@@ -424,10 +422,10 @@ getAnimeAboutInfo("steinsgate-3")
 #### Sample Usage
 
 ```javascript
-import { getAnimeSearchResults } from "aniwatch";
+import { getAnimeSearchResults } from 'aniwatch';
 
-getAnimeSearchResults("monster", 1, {
-  genres: "seinen,psychological",
+getAnimeSearchResults('monster', 1, {
+  genres: 'seinen,psychological',
 })
   .then((data) => {
     console.log(data);
@@ -502,9 +500,9 @@ getAnimeSearchResults("monster", 1, {
 #### Sample Usage
 
 ```javascript
-import { getAnimeSearchSuggestion } from "aniwatch";
+import { getAnimeSearchSuggestion } from 'aniwatch';
 
-getAnimeSearchSuggestion("one piece")
+getAnimeSearchSuggestion('one piece')
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 ```
@@ -548,9 +546,9 @@ getAnimeSearchSuggestion("one piece")
 #### Sample Usage
 
 ```javascript
-import { getProducerAnimes } from "aniwatch";
+import { getProducerAnimes } from 'aniwatch';
 
-getProducerAnimes("toei-animation", 2)
+getProducerAnimes('toei-animation', 2)
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 ```
@@ -634,8 +632,9 @@ getProducerAnimes("toei-animation", 2)
 #### Sample Usage
 
 ```javascript
-import { getGenreAnime } from "aniwatch";
-getGenreAnime("shounen", 2)
+import { getGenreAnime } from 'aniwatch';
+
+getGenreAnime('shounen', 2)
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 ```
@@ -703,9 +702,9 @@ getGenreAnime("shounen", 2)
 #### Sample Usage
 
 ```javascript
-import { getAnimeCategory } from "aniwatch";
+import { getAnimeCategory } from 'aniwatch';
 
-getAnimeCategory("subbed-anime")
+getAnimeCategory('subbed-anime')
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 
@@ -780,9 +779,9 @@ getAnimeCategory("subbed-anime")
 #### Sample Usage
 
 ```javascript
-import { getEstimatedSchedule } from "aniwatch";
+import { getEstimatedSchedule } from 'aniwatch';
 
-getEstimatedSchedule("2024-08-09")
+getEstimatedSchedule('2024-08-09')
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 ```
@@ -826,9 +825,9 @@ getEstimatedSchedule("2024-08-09")
 #### Sample Usage
 
 ```javascript
-import { getAnimeEpisodes } from "aniwatch";
+import { getAnimeEpisodes } from 'aniwatch';
 
-getAnimeEpisodes("steinsgate-3")
+getAnimeEpisodes('steinsgate-3')
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 ```
@@ -871,9 +870,9 @@ getAnimeEpisodes("steinsgate-3")
 #### Request sample
 
 ```javascript
-import { getEpisodeServers } from "aniwatch";
+import { getEpisodeServers } from 'aniwatch';
 
-getEpisodeServers("steinsgate-0-92?ep=2055")
+getEpisodeServers('steinsgate-0-92?ep=2055')
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 ```
@@ -931,9 +930,9 @@ getEpisodeServers("steinsgate-0-92?ep=2055")
 #### Request sample
 
 ```javascript
-import { getAnimeEpisodeSources } from "aniwatch";
+import { getAnimeEpisodeSources } from 'aniwatch';
 
-getAnimeEpisodeSources("steinsgate-3?ep=230", "hd-1", "sub")
+getAnimeEpisodeSources('steinsgate-3?ep=230', 'hd-1', 'sub')
   .then((data) => console.log(data))
   .catch((err) => console.error(err));
 ```

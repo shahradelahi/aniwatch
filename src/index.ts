@@ -1,11 +1,11 @@
 // scraper exports
-export * from "./scrapers/index.js";
+export * from './scrapers/index.js';
 
 // aniwatch error
-export { AniwatchError } from "./config/error.js";
+export { AniwatchError } from './config/error.js';
 
 // scraper type exports
-// export * from "./types/scrapers/index.js";
+export type * from './types/scrapers/index.js';
 
 // common anime type exports
 // export * from "./types/anime.js";

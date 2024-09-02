@@ -13,8 +13,6 @@ export type AnimeSearchQueryParams = {
   genres?: string;
 };
 
-export type SearchFilters = Omit<AnimeSearchQueryParams, "q" | "page">;
+export type SearchFilters = Omit<AnimeSearchQueryParams, 'q' | 'page'>;
 
-export type FilterKeys = Partial<
-  keyof Omit<SearchFilters, "start_date" | "end_date">
->;
+export type FilterKeys = Partial<keyof Omit<SearchFilters, 'start_date' | 'end_date'>>;

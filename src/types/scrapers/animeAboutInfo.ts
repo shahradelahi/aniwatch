@@ -1,13 +1,7 @@
-import type {
-  Season,
-  RelatedAnime,
-  RecommendedAnime,
-  AnimeGeneralAboutInfo,
-} from "../anime.js";
-import { type ScrapedAnimeSearchResult } from "./animeSearch.js";
+import type { AnimeGeneralAboutInfo, RecommendedAnime, RelatedAnime, Season } from '../anime.js';
+import { type ScrapedAnimeSearchResult } from './animeSearch.js';
 
-export interface ScrapedAnimeAboutInfo
-  extends Pick<ScrapedAnimeSearchResult, "mostPopularAnimes"> {
+export interface ScrapedAnimeAboutInfo extends Pick<ScrapedAnimeSearchResult, 'mostPopularAnimes'> {
   anime: {
     info: AnimeGeneralAboutInfo;
     moreInfo: Record<string, string | string[]>;

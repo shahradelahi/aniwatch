@@ -1,4 +1,4 @@
-import type { Anime, Top10Anime } from "../anime.js";
+import type { Anime, Top10Anime } from '../anime.js';
 
 export interface ScrapedAnimeCategory {
   animes: Array<Anime>;
@@ -14,8 +14,4 @@ export interface ScrapedAnimeCategory {
   hasNextPage: boolean;
 }
 
-export type CommonAnimeScrapeTypes =
-  | "animes"
-  | "totalPages"
-  | "hasNextPage"
-  | "currentPage";
+export type CommonAnimeScrapeTypes = 'animes' | 'totalPages' | 'hasNextPage' | 'currentPage';

@@ -1,12 +1,13 @@
-import axios from "axios";
-import crypto from "crypto";
-import { AniwatchError } from "../config/error.js";
+import crypto from 'crypto';
+import axios from 'axios';
+
+import { AniwatchError } from '../config/error.js';
 
 // https://megacloud.tv/embed-2/e-1/dBqCr5BcOhnD?k=1
 
 const megacloud = {
-  script: "https://megacloud.tv/js/player/a/prod/e1-player.min.js?v=",
-  sources: "https://megacloud.tv/embed-2/ajax/e-1/getSources?id=",
+  script: 'https://megacloud.tv/js/player/a/prod/e1-player.min.js?v=',
+  sources: 'https://megacloud.tv/embed-2/ajax/e-1/getSources?id=',
 } as const;
 
 type track = {
@@ -35,8 +36,7 @@ type extractedSrc = {
   server: number;
 };
 
-interface ExtractedData
-  extends Pick<extractedSrc, "intro" | "outro" | "tracks"> {
+interface ExtractedData extends Pick<extractedSrc, 'intro' | 'outro' | 'tracks'> {
   sources: { url: string; type: string }[];
 }
 
@@ -58,24 +58,21 @@ class MegaCloud {
         sources: [],
       };
 
-      const videoId = videoUrl?.href?.split("/")?.pop()?.split("?")[0];
+      const videoId = videoUrl?.href?.split('/')?.pop()?.split('?')[0];
       const { data: srcsData } = await axios.get<extractedSrc>(
-        megacloud.sources.concat(videoId || ""),
+        megacloud.sources.concat(videoId || ''),
         {
           headers: {
-            Accept: "*/*",
-            "X-Requested-With": "XMLHttpRequest",
-            "User-Agent":
-              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+            Accept: '*/*',
+            'X-Requested-With': 'XMLHttpRequest',
+            'User-Agent':
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
             Referer: videoUrl.href,
           },
         }
       );
       if (!srcsData) {
-        throw new AniwatchError(
-          "Url may have an invalid video id",
-          "getAnimeEpisodeSources"
-        );
+        throw new AniwatchError('Url may have an invalid video id', 'getAnimeEpisodeSources');
       }
 
       // console.log(JSON.stringify(srcsData, null, 2));
@@ -94,29 +91,22 @@ class MegaCloud {
       }
 
       let text: string;
-      const { data } = await axios.get(
-        megacloud.script.concat(Date.now().toString())
-      );
+      const { data } = await axios.get(megacloud.script.concat(Date.now().toString()));
 
       text = data;
       if (!text) {
         throw new AniwatchError(
           "Couldn't fetch script to decrypt resource",
-          "getAnimeEpisodeSources"
+          'getAnimeEpisodeSources'
         );
       }
 
       const vars = this.extractVariables(text);
       if (!vars.length) {
-        throw new Error(
-          "Can't find variables. Perhaps the extractor is outdated."
-        );
+        throw new Error("Can't find variables. Perhaps the extractor is outdated.");
       }
 
-      const { secret, encryptedSource } = this.getSecret(
-        encryptedString as string,
-        vars
-      );
+      const { secret, encryptedSource } = this.getSecret(encryptedString as string, vars);
       const decrypted = this.decrypt(encryptedSource, secret);
       try {
         const sources = JSON.parse(decrypted);
@@ -130,10 +120,7 @@ class MegaCloud {
 
         return extractedData;
       } catch (error) {
-        throw new AniwatchError(
-          "Failed to decrypt resource",
-          "getAnimeEpisodeSources"
-        );
+        throw new AniwatchError('Failed to decrypt resource', 'getAnimeEpisodeSources');
       }
     } catch (err) {
       // console.log(err);
@@ -143,8 +130,7 @@ class MegaCloud {
 
   extractVariables(text: string) {
     // copied from github issue #30 'https://github.com/ghoshRitesh12/aniwatch-api/issues/30'
-    const regex =
-      /case\s*0x[0-9a-f]+:(?![^;]*=partKey)\s*\w+\s*=\s*(\w+)\s*,\s*\w+\s*=\s*(\w+);/g;
+    const regex = /case\s*0x[0-9a-f]+:(?![^;]*=partKey)\s*\w+\s*=\s*(\w+)\s*,\s*\w+\s*=\s*(\w+);/g;
     const matches = text.matchAll(regex);
     const vars = Array.from(matches, (match) => {
       const matchKey1 = this.matchingKey(match[1], text);
@@ -160,9 +146,9 @@ class MegaCloud {
   }
 
   getSecret(encryptedString: string, values: number[][]) {
-    let secret = "",
-      encryptedSource = "",
-      encryptedSourceArray = encryptedString.split(""),
+    let secret = '',
+      encryptedSource = '',
+      encryptedSourceArray = encryptedString.split(''),
       currentIndex = 0;
 
     for (const index of values) {
@@ -171,12 +157,12 @@ class MegaCloud {
 
       for (let i = start; i < end; i++) {
         secret += encryptedString[i];
-        encryptedSourceArray[i] = "";
+        encryptedSourceArray[i] = '';
       }
       currentIndex += index[1];
     }
 
-    encryptedSource = encryptedSourceArray.join("");
+    encryptedSource = encryptedSourceArray.join('');
 
     return { secret, encryptedSource };
   }
@@ -191,16 +177,13 @@ class MegaCloud {
       contents = encrypted;
     } else {
       // copied from 'https://github.com/brix/crypto-js/issues/468'
-      const cypher = Buffer.from(encrypted, "base64");
+      const cypher = Buffer.from(encrypted, 'base64');
       const salt = cypher.subarray(8, 16);
-      const password = Buffer.concat([
-        Buffer.from(keyOrSecret, "binary"),
-        salt,
-      ]);
+      const password = Buffer.concat([Buffer.from(keyOrSecret, 'binary'), salt]);
       const md5Hashes = [];
       let digest = password;
       for (let i = 0; i < 3; i++) {
-        md5Hashes[i] = crypto.createHash("md5").update(digest).digest();
+        md5Hashes[i] = crypto.createHash('md5').update(digest).digest();
         digest = Buffer.concat([md5Hashes[i], password]);
       }
       key = Buffer.concat([md5Hashes[0], md5Hashes[1]]);
@@ -208,12 +191,12 @@ class MegaCloud {
       contents = cypher.subarray(16);
     }
 
-    const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
     const decrypted =
       decipher.update(
         contents as any,
-        typeof contents === "string" ? "base64" : undefined,
-        "utf8"
+        typeof contents === 'string' ? 'base64' : undefined,
+        'utf8'
       ) + decipher.final();
 
     return decrypted;
@@ -224,9 +207,9 @@ class MegaCloud {
     const regex = new RegExp(`,${value}=((?:0x)?([0-9a-fA-F]+))`);
     const match = script.match(regex);
     if (match) {
-      return match[1].replace(/^0x/, "");
+      return match[1].replace(/^0x/, '');
     } else {
-      throw new Error("Failed to match the key");
+      throw new Error('Failed to match the key');
     }
   }
 }

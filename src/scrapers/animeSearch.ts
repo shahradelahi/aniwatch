@@ -1,15 +1,17 @@
-import { load, type CheerioAPI, type SelectorType } from "cheerio";
-import { client } from "../config/client.js";
-import { AniwatchError } from "../config/error.js";
+import type { AxiosRequestConfig } from 'axios';
+import { load, type CheerioAPI, type SelectorType } from 'cheerio';
+
+import { createClient } from '../config/client.js';
+import { AniwatchError } from '../config/error.js';
+import type { FilterKeys, SearchFilters } from '../types/animeSearch.js';
+import type { ScrapedAnimeSearchResult } from '../types/scrapers/index.js';
 import {
-  SRC_SEARCH_URL,
   extractAnimes,
-  getSearchFilterValue,
   extractMostPopularAnimes,
   getSearchDateFilterValue,
-} from "../utils/index.js";
-import type { ScrapedAnimeSearchResult } from "../types/scrapers/index.js";
-import type { SearchFilters, FilterKeys } from "../types/animeSearch.js";
+  getSearchFilterValue,
+  SRC_SEARCH_URL,
+} from '../utils/index.js';
 
 const searchFilters: Record<string, boolean> = {
   filter: true,
@@ -28,7 +30,8 @@ const searchFilters: Record<string, boolean> = {
 async function _getAnimeSearchResults(
   q: string,
   page: number = 1,
-  filters: SearchFilters
+  filters: SearchFilters,
+  options: AxiosRequestConfig = {}
 ): Promise<ScrapedAnimeSearchResult> {
   try {
     const res: ScrapedAnimeSearchResult = {
@@ -42,20 +45,20 @@ async function _getAnimeSearchResults(
     };
 
     const url = new URL(SRC_SEARCH_URL);
-    url.searchParams.set("keyword", q);
-    url.searchParams.set("page", `${page}`);
-    url.searchParams.set("sort", "default");
+    url.searchParams.set('keyword', q);
+    url.searchParams.set('page', `${page}`);
+    url.searchParams.set('sort', 'default');
 
     for (const key in filters) {
-      if (key.includes("_date")) {
+      if (key.includes('_date')) {
         const dates = getSearchDateFilterValue(
-          key === "start_date",
-          filters[key as keyof SearchFilters] || ""
+          key === 'start_date',
+          filters[key as keyof SearchFilters] || ''
         );
         if (!dates) continue;
 
         dates.map((dateParam) => {
-          const [key, val] = dateParam.split("=");
+          const [key, val] = dateParam.split('=');
           url.searchParams.set(key, val);
         });
         continue;
@@ -63,22 +66,22 @@ async function _getAnimeSearchResults(
 
       const filterVal = getSearchFilterValue(
         key as FilterKeys,
-        filters[key as keyof SearchFilters] || ""
+        filters[key as keyof SearchFilters] || ''
       );
       filterVal && url.searchParams.set(key, filterVal);
     }
 
+    const client = createClient(options);
     const mainPage = await client.get(url.href);
 
     const $: CheerioAPI = load(mainPage.data);
 
-    const selector: SelectorType =
-      "#main-content .tab-content .film_list-wrap .flw-item";
+    const selector: SelectorType = '#main-content .tab-content .film_list-wrap .flw-item';
 
     res.hasNextPage =
-      $(".pagination > li").length > 0
-        ? $(".pagination li.active").length > 0
-          ? $(".pagination > li").last().hasClass("active")
+      $('.pagination > li').length > 0
+        ? $('.pagination li.active').length > 0
+          ? $('.pagination > li').last().hasClass('active')
             ? false
             : true
           : false
@@ -86,15 +89,9 @@ async function _getAnimeSearchResults(
 
     res.totalPages =
       Number(
-        $('.pagination > .page-item a[title="Last"]')
-          ?.attr("href")
-          ?.split("=")
-          .pop() ??
-          $('.pagination > .page-item a[title="Next"]')
-            ?.attr("href")
-            ?.split("=")
-            .pop() ??
-          $(".pagination > .page-item.active a")?.text()?.trim()
+        $('.pagination > .page-item a[title="Last"]')?.attr('href')?.split('=').pop() ??
+          $('.pagination > .page-item a[title="Next"]')?.attr('href')?.split('=').pop() ??
+          $('.pagination > .page-item.active a')?.text()?.trim()
       ) || 1;
 
     res.animes = extractAnimes($, selector, getAnimeSearchResults.name);
@@ -104,7 +101,7 @@ async function _getAnimeSearchResults(
     }
 
     const mostPopularSelector: SelectorType =
-      "#main-sidebar .block_area.block_area_sidebar.block_area-realtime .anif-block-ul ul li";
+      '#main-sidebar .block_area.block_area_sidebar.block_area-realtime .anif-block-ul ul li';
     res.mostPopularAnimes = extractMostPopularAnimes(
       $,
       mostPopularSelector,
@@ -141,20 +138,16 @@ export async function getAnimeSearchResults(
   filters: SearchFilters = {}
 ): Promise<ScrapedAnimeSearchResult> {
   try {
-    q = q.trim() ? decodeURIComponent(q.trim()) : "";
-    if (q.trim() === "") {
-      throw new AniwatchError(
-        "invalid search query",
-        getAnimeSearchResults.name
-      );
+    q = q.trim() ? decodeURIComponent(q.trim()) : '';
+    if (q.trim() === '') {
+      throw new AniwatchError('invalid search query', getAnimeSearchResults.name);
     }
     page = page < 1 ? 1 : page;
 
     const parsedFilters: SearchFilters = {};
     for (const key in filters) {
       if (searchFilters[key]) {
-        parsedFilters[key as keyof SearchFilters] =
-          filters[key as keyof SearchFilters];
+        parsedFilters[key as keyof SearchFilters] = filters[key as keyof SearchFilters];
       }
     }
 

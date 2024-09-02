@@ -1,7 +1,7 @@
-import { AxiosError } from "axios";
+import { AxiosError } from 'axios';
 
-const ANSI_ESCAPE_CODE_RED_COLOR = "\x1b[31m%s\x1b[0m";
-const DEFAULT_ERROR_MESSAGE = "Something went wrong";
+const ANSI_ESCAPE_CODE_RED_COLOR = '\x1b[31m%s\x1b[0m';
+const DEFAULT_ERROR_MESSAGE = 'Something went wrong';
 
 export class AniwatchError extends Error {
   public scraper: string;
@@ -26,13 +26,10 @@ export class AniwatchError extends Error {
 
     if (err instanceof AxiosError) {
       const statusText = err?.response?.statusText || DEFAULT_ERROR_MESSAGE;
-      return new AniwatchError("fetch_err: " + statusText, scraperName);
+      return new AniwatchError('fetch_err: ' + statusText, scraperName);
     }
 
-    return new AniwatchError(
-      err?.message || DEFAULT_ERROR_MESSAGE,
-      scraperName
-    );
+    return new AniwatchError(err?.message || DEFAULT_ERROR_MESSAGE, scraperName);
   }
 
   private logError() {

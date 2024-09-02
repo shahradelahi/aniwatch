@@ -1,7 +1,8 @@
-import { expect, test } from "vitest";
-import { getHomePage } from "../src/index.js";
+import { expect, test } from 'vitest';
 
-test("returns anime information present in homepage", async () => {
+import { getHomePage } from '../src/index.js';
+
+test('returns anime information present in homepage', async () => {
   const data = await getHomePage();
 
   expect(data.spotlightAnimes).not.toEqual([]);
@@ -17,4 +18,6 @@ test("returns anime information present in homepage", async () => {
   expect(data.top10Animes.today).not.toEqual([]);
   expect(data.top10Animes.week).not.toEqual([]);
   expect(data.top10Animes.month).not.toEqual([]);
+
+  console.log(data.spotlightAnimes[0]);
 });
