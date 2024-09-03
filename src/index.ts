@@ -8,10 +8,10 @@ export { AniwatchError } from './config/error.js';
 export type * from './types/scrapers/index.js';
 
 // common anime type exports
-// export * from "./types/anime.js";
+export type * from './types/anime.js';
 
 // // anime search type exports
-// export * from "./types/animeSearch.js";
+export type * from './types/animeSearch.js';
 
 // helpful constant exports
 // export {
