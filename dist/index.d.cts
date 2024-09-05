@@ -230,6 +230,7 @@ type ScrapedEstimatedSchedule = {
 
 /**
  * @param {string} animeId - unique anime id
+ * @param options
  * @example
  * import { getAnimeAboutInfo } from "aniwatch";
  *

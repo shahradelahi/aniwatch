@@ -8,6 +8,7 @@ import { extractAnimes, extractMostPopularAnimes, SRC_BASE_URL } from '../utils/
 
 /**
  * @param {string} animeId - unique anime id
+ * @param options
  * @example
  * import { getAnimeAboutInfo } from "aniwatch";
  *
@@ -50,11 +51,11 @@ export async function getAnimeAboutInfo(
     recommendedAnimes: [],
   };
 
-  try {
-    if (animeId.trim() === '' || animeId.indexOf('-') === -1) {
-      throw new AniwatchError('invalid anime id', getAnimeAboutInfo.name);
-    }
+  if (animeId.trim() === '' || animeId.indexOf('-') === -1) {
+    throw new AniwatchError('invalid anime id', getAnimeAboutInfo.name);
+  }
 
+  try {
     const animeUrl: URL = new URL(animeId, SRC_BASE_URL);
     const client = createClient(options);
     const mainPage = await client.get(animeUrl.href);
@@ -64,7 +65,7 @@ export async function getAnimeAboutInfo(
     try {
       const syncData = JSON.parse($('body')?.find('#syncData')?.text());
       res.anime.info.anilistId = syncData?.anilist_id ? Number(syncData?.anilist_id) : null;
-      res.anime.info.malId = syncData?.anilist_id ? Number(syncData?.malId) : null;
+      res.anime.info.malId = syncData?.mal_id ? Number(syncData?.mal_id) : null;
     } catch (err) {
       res.anime.info.anilistId = null;
       res.anime.info.malId = null;
